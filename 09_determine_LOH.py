@@ -1,8 +1,8 @@
 ########################## file information #############################
 # Author: Bochao Zhang
-# Date: 2024-3-11
+# Date: 2025-12-5
 # Description:
-# Estimated allele copy number at each heterozygous site
+# Determine MHC gene LOH status
 #########################################################################
 
 import os,argparse
