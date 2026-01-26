@@ -45,7 +45,7 @@ def filterBam(het,input_bam,hap,output_dir):
     for read in reads:
         ADD = False
         MD = read.get_tag("MD")
-        if MD == "150":
+        if MD == str(read.query_length):
             ADD = True
         else:
             mismatch = [c for c in MD if c in ["A","C","G","T","N"]]
