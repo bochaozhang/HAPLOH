@@ -11,6 +11,7 @@ import pandas as pd
 def parse_args():
     parser = argparse.ArgumentParser(description = "A Python script for filtering assembly referencing bam")
     parser.add_argument("-b", help="Input bam (REQUIRED)", dest="INPUT_BAM")
+    parser.add_argument("-h", help="Haplotype #: choose between 1 or 2 (REQUIRED)", dest="HAP")
     parser.add_argument("-o", help="Output directory", dest="OUTPUT_DIR")
     parser.add_argument("-p", help="Path to polymorphic site tsv file (REQUIRED)", dest="POLY_PATH")
     return parser.parse_args()
@@ -34,7 +35,7 @@ def get_polymorphic_site(poly_path):
     het.reset_index(drop=True,inplace=True)
     return het
 
-def filterBam(het,input_bam,output_dir):
+def filterBam(het,input_bam,hap,output_dir):
     """
     Filter bam, removing reads with more than one mismatch, one mismatch but on polymorphic site, or not properly paired
     """
@@ -78,13 +79,23 @@ def main():
     else:
         input_bam = args.INPUT_BAM
 
+    if not args.HAP:
+        exit("Specify haplotype # using -h")
+    else:
+        hap = int(args.HAP)
+
     if not args.OUTPUT_DIR:
         output_dir = os.path.dirname(input_dir)
     else:
         output_dir = args.OUTPUT_DIR
+
+    if not args.POLY_PATH:
+        exit("Specify polymorphic site tsv file using -p")
+    else:
+        poly_path = args.POLY_PATH
     
     het = get_polymorphic_site(poly_path)
-    filterBam(het,input_bam,output_dir)
+    filterBam(het,input_bam,hap,output_dir)
        
 if __name__ == "__main__":
     main()
